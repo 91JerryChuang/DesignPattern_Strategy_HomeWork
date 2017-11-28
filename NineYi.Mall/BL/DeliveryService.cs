@@ -55,7 +55,25 @@ namespace NineYi.Mall.BL
             }
             else if (deliveryItem.DeliveryType == DeliveryTypeEnum.PostOffice)
             {
-                throw new NotImplementedException();
+                var weight = deliveryItem.ProductWeight;
+                var feeByWeight = 80 + weight * 10;
+
+                var length = deliveryItem.ProductLength;
+                var width = deliveryItem.ProductWidth;
+                var height = deliveryItem.ProductHeight;
+
+                var size = length * width * height;
+
+                var feeBySize = size * 0.00001 * 110;
+
+                if (feeByWeight > feeBySize)
+                {
+                    return feeByWeight;
+                }
+                else
+                {
+                    return feeBySize;
+                }
             }
             else
             {
