@@ -14,7 +14,23 @@ namespace NineYi.Mall.BL.Calculator
         /// <returns>運費</returns>
         public double Calculate(DeliveryEntity deliveryItem)
         {
-            throw new System.NotImplementedException();
+            var weight = deliveryItem.ProductWeight;
+            var feeByWeight = 80 + (weight * 10);
+
+            var length = deliveryItem.ProductLength;
+            var width = deliveryItem.ProductWidth;
+            var height = deliveryItem.ProductHeight;
+
+            var size = length * width * height;
+
+            var feeBySize = size * 0.00001 * 110;
+
+            if (feeByWeight > feeBySize)
+            {
+                return feeByWeight;
+            }
+
+            return feeBySize;
         }
     }
 }
