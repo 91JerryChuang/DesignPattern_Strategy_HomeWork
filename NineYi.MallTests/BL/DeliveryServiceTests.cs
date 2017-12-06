@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using NineYi.Mall.BE;
+using NineYi.Mall.BL.Calculator;
 using Xunit;
 
 namespace NineYi.Mall.BL.Tests
@@ -18,6 +19,8 @@ namespace NineYi.Mall.BL.Tests
                 {
                     new object[]
                     {
+                        //// 黑貓運費計算器
+                        new TCatCalculatorService(),
                         //// 要被計算的物件
                         new DeliveryEntity()
                         {
@@ -32,6 +35,8 @@ namespace NineYi.Mall.BL.Tests
                     },
                     new object[]
                     {
+                        //// 黑貓運費計算器
+                        new TCatCalculatorService(),
                         //// 要被計算的物件
                         new DeliveryEntity()
                         {
@@ -59,6 +64,8 @@ namespace NineYi.Mall.BL.Tests
                 {
                     new object[]
                     {
+                        //// 大榮運費計算器
+                        new KTJCalculatorService(),
                         //// 要被計算的物件
                         new DeliveryEntity()
                         {
@@ -73,6 +80,8 @@ namespace NineYi.Mall.BL.Tests
                     },
                     new object[]
                     {
+                        //// 大榮運費計算器
+                        new KTJCalculatorService(),
                         //// 要被計算的物件
                         new DeliveryEntity()
                         {
@@ -100,6 +109,8 @@ namespace NineYi.Mall.BL.Tests
                 {
                     new object[]
                     {
+                        //// 郵局運費計算器
+                        new PostOfficeCalculatorService(),
                         //// 要被計算的物件
                         new DeliveryEntity()
                         {
@@ -114,6 +125,8 @@ namespace NineYi.Mall.BL.Tests
                     },
                     new object[]
                     {
+                        //// 郵局運費計算器
+                        new PostOfficeCalculatorService(),
                         //// 要被計算的物件
                         new DeliveryEntity()
                         {
@@ -134,11 +147,11 @@ namespace NineYi.Mall.BL.Tests
         [MemberData(nameof(DeliveryItemForTCat))]
         [MemberData(nameof(DeliveryItemForKTJ))]
         [MemberData(nameof(DeliveryItemForPostOffice))]
-        public void Test_Calculate(DeliveryEntity deliveryItem, double expected)
+        public void Test_Calculate(ICalculatorService calculatorService, DeliveryEntity deliveryItem, double expected)
         {
             //// Arrange
             var actual = 0d;
-            var target = new DeliveryService();
+            var target = new DeliveryService(calculatorService);
 
             //// Act
             actual = target.Calculate(deliveryItem);
